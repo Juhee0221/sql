@@ -3,8 +3,6 @@
 
 -- 김사랑 사원과 같은 부서에 근무하는 사원들의 사번, 이름, 부서번호 
 
-;
-
 SELECT EMPNO
 	, ENAME
 	, DEPTNO

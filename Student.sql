@@ -1,0 +1,20 @@
+-- 학생관리 프로그램 테이블 
+
+CREATE TABLE STU (
+	STU_NO INT PRIMARY KEY 
+	, STU_NAME VARCHAR(10) NOT NULL
+	, KOR_SCORE INT DEFAULT 0 -- SCORE 기본값 0으로 넣는 것 : DEFAULT 
+	, ENG_SCORE INT DEFAULT 0 
+	, INTRO VARCHAR(50) -- 학생 소개 
+);
+-- NULL 과 '' 빈값은 다르게 취급. 
+SELECT *
+FROM stu;
+
+COMMIT;
+
+SELECT STU_NO
+      , STU_NAME
+      , KOR_SCORE
+      , ENG_SCORE
+ FROM stu;

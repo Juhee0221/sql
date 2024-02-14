@@ -42,6 +42,14 @@ CREATE TABLE SHOP_ITEM(
 	, CATE_CODE INT NOT NULL REFERENCES item_category (CATE_CODE) 
 );
 
+-- 준비 중 : 1, 판매중 : 2, 매진 : 3
+ALTER TABLE shop_item ADD COLUMN ITEM_STATUS INT DEFAULT 1;
+
+UPDATE shop_item
+SET ITEM_STATUS = 2;
+
+ALTER TABLE shop_item DROP COLUMN ITEM_STATUS;
+  
 -- 상품의 이미지 정보를 관리하는 테이블
 CREATE TABLE ITEM_IMAGE(
 	IMG_CODE INT AUTO_INCREMENT PRIMARY KEY
@@ -305,3 +313,39 @@ INNER JOIN item_image IMG
 ON IMG.ITEM_CODE = ITEM.ITEM_CODE
 WHERE IS_MAIN = 'Y'
 AND BUY.BUY_CODE = 1;
+
+-- 원하는 날짜의 구매 정보 조회
+-- 둘다 문자로 바꾸거나, DATE로 바꾸거나
+
+SELECT * FROM shop_buy
+WHERE BUY_DATE > '2024-02-02';
+
+-- 문자열 -> 날짜 
+-- SELECT NOW : SELECT 한 날짜를 보여줌 
+-- Y : 소문자일 경우 형식에 맞지 않아 데이터 조회 X
+SELECT NOW()
+	, STR_TO_DATE('2024-01-01','%Y-%m-%d');
+	
+SELECT * FROM shop_buy
+WHERE DATE_FORMAT(BUY_DATE,'%Y-%m-%d') = '2024-02-02';
+	
+-- 날짜 -> 문자열
+-- DATE_FORMAT => 날짜를 문자형식으로 교체
+SELECT BUY_DATE
+	, DATE_FORMAT(BUY_DATE,'%Y-%m-%d')
+	, DATE_FORMAT(BUY_DATE,'%Y-%m-%d %h:%i:%s')
+	, DATE_FORMAT(BUY_DATE,'%Y')
+FROM shop_buy;
+
+SELECT DATE_FORMAT(BUY_DATE,'%Y-%m-%d %h:%i') BUY_DATE
+	, BUY_CODE
+FROM shop_buy;
+
+SELECT BUY_CODE
+	, MEMBER_ID 
+	, BUY_PRICE
+	, BUY_DATE
+FROM shop_buy
+WHERE BUY_CODE LIKE ''
+AND DATE_FORMAT(BUY_DATE, '%Y-%m-%d') >= '?'
+AND DATE_FORMAT(BUY_DATE, '%Y-%m-%d') >= '?'
